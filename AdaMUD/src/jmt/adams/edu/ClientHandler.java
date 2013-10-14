@@ -27,11 +27,13 @@ public class ClientHandler extends Thread {
 				Telnet.writeLine(cs, "You said: " + message);
 			}
 			
-			s.remove(cs);
 			cs.close();
 		}
 		catch (IOException e) {
 			System.out.println("Client error: " + e);
+		}
+		finally {
+			s.remove(cs);
 		}
 	}
 }

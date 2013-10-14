@@ -57,7 +57,6 @@ public class Telnet {
 			}
 		}
 		
-		in.close();
 		return buffer;
 	}
 	
@@ -92,9 +91,8 @@ public class Telnet {
 		message.replace("<hidden>", 	HIDDEN);
 		
 		//Then write the message to the socket
-		PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(s.getOutputStream()), true);
 		
 		out.println(message);
-		out.close();
 	}
 }
