@@ -9,7 +9,7 @@ public class Server {
 	
 	private static final int PORT = 23;
 	
-	public int num = 0;
+	public int numClients = 0;
 	private List<Socket> clientList = new ArrayList<Socket>();
 	
 	public static void main (String[] args) {
@@ -31,7 +31,7 @@ public class Server {
 				
 				add(client);
 				new ClientHandler(client, this).start();
-				System.out.println("New client number " + num + " from " + client.getInetAddress().getHostAddress());
+				System.out.println("New client number " + numClients + " from " + client.getInetAddress().getHostAddress());
 				
 			}
 		}
@@ -41,10 +41,12 @@ public class Server {
 	}
 	
 	public synchronized void add (Socket s) {
-		
+		clientList.add(s);
+		numClients++;
 	}
 	
 	public synchronized void remove (Socket s) {
-		
+		clientList.remove(s);
+		numClients--;
 	}
 }

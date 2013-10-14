@@ -1,6 +1,5 @@
 package jmt.adams.edu;
 import java.net.*;
-import java.util.*;
 import java.io.*;
 
 public class ClientHandler extends Thread {
@@ -14,6 +13,25 @@ public class ClientHandler extends Thread {
 	}
 	
 	public void run() {
-		
+		try {
+			Telnet.writeLine(cs, "<fggreen> >>> Welcome to AdaMUD <<< <reset>");
+			
+			while (true) {
+				String message = Telnet.readLine(cs).trim();
+				
+				if(message.equals("bye")) {
+					Telnet.writeLine(cs, "Goodbye!");
+					break;
+				}
+				
+				Telnet.writeLine(cs, "You said: " + message);
+			}
+			
+			s.remove(cs);
+			cs.close();
+		}
+		catch (IOException e) {
+			System.out.println("Client error: " + e);
+		}
 	}
 }
