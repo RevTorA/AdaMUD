@@ -64,31 +64,31 @@ public class Telnet {
 		//Writes message to Telnet socket, replacing <> tags with appropriate VT100 codes
 		
 		//First we replace all <> tags
-		message.replace("<fgblack>", 	FG_BLACK);
-		message.replace("<fgred>", 		FG_RED);
-		message.replace("<fggreen>", 	FG_GREEN);
-		message.replace("<fgyellow>", 	FG_YELLOW);
-		message.replace("<fgblue>", 	FG_BLUE);
-		message.replace("<fgmagenta>", 	FG_MAGENTA);
-		message.replace("<fgcyan>", 	FG_CYAN);
-		message.replace("<fgwhite>", 	FG_WHITE);
+		message = message.replace("<fgblack>", 	FG_BLACK);
+		message = message.replace("<fgred>", 		FG_RED);
+		message = message.replace("<fggreen>", 	FG_GREEN);
+		message = message.replace("<fgyellow>", 	FG_YELLOW);
+		message = message.replace("<fgblue>", 	FG_BLUE);
+		message = message.replace("<fgmagenta>", 	FG_MAGENTA);
+		message = message.replace("<fgcyan>", 	FG_CYAN);
+		message = message.replace("<fgwhite>", 	FG_WHITE);
 		
-		message.replace("<bgblack>", 	BG_BLACK);
-		message.replace("<bgred>", 		BG_RED);
-		message.replace("<bggreen>", 	BG_GREEN);
-		message.replace("<bgyellow>", 	BG_YELLOW);
-		message.replace("<bgblue>", 	BG_BLUE);
-		message.replace("<bgmagenta>", 	BG_MAGENTA);
-		message.replace("<bgcyan>", 	BG_CYAN);
-		message.replace("<bgwhite>", 	BG_WHITE);
+		message = message.replace("<bgblack>", 	BG_BLACK);
+		message = message.replace("<bgred>", 		BG_RED);
+		message = message.replace("<bggreen>", 	BG_GREEN);
+		message = message.replace("<bgyellow>", 	BG_YELLOW);
+		message = message.replace("<bgblue>", 	BG_BLUE);
+		message = message.replace("<bgmagenta>", 	BG_MAGENTA);
+		message = message.replace("<bgcyan>", 	BG_CYAN);
+		message = message.replace("<bgwhite>", 	BG_WHITE);
 		
-		message.replace("<reset>", 		RESET);
-		message.replace("<bright>", 	BRIGHT);
-		message.replace("<dim>", 		DIM);
-		message.replace("<underline>", 	UNDERLINE);
-		message.replace("<blinking>", 	BLINKING);
-		message.replace("<swap_fg_bg>", SWAP_FG_BG);
-		message.replace("<hidden>", 	HIDDEN);
+		message = message.replace("<reset>", 		RESET);
+		message = message.replace("<bright>", 	BRIGHT);
+		message = message.replace("<dim>", 		DIM);
+		message = message.replace("<underline>", 	UNDERLINE);
+		message = message.replace("<blinking>", 	BLINKING);
+		message = message.replace("<swap_fg_bg>", SWAP_FG_BG);
+		message = message.replace("<hidden>", 	HIDDEN);
 		
 		//Then write the message to the socket
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(s.getOutputStream()), true);
