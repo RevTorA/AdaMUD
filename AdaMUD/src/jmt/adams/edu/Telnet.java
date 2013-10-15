@@ -95,4 +95,14 @@ public class Telnet {
 		
 		out.println(message);
 	}
+	
+	public static void flushInput(Socket s) throws IOException {
+		//Reads in and tosses all data until none is left
+		InputStreamReader in = new InputStreamReader(s.getInputStream());
+		
+		while(in.ready()) {
+			in.read();
+		}
+		
+	}
 }

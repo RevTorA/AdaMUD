@@ -15,6 +15,7 @@ public class ClientHandler extends Thread {
 	public void run() {
 		try {
 			Telnet.writeLine(cs, "<fggreen> >>> Welcome to AdaMUD <<< <reset>");
+			Telnet.flushInput(cs);
 			
 			while (true) {
 				String message = Telnet.readLine(cs).trim();
