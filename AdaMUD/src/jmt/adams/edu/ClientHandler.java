@@ -38,6 +38,7 @@ public class ClientHandler extends Thread {
 			System.out.println("Client error: " + e);
 		}
 		finally {
+			s.getPlayerDB().remove(player);
 			s.remove(cs);
 		}
 	}
@@ -47,6 +48,7 @@ public class ClientHandler extends Thread {
 		String name = Telnet.readLine(cs).trim();
 		
 		player = new Player(name, s.numClients, cs);
+		s.getPlayerDB().add(player);
 		
 		Telnet.writeLine(cs,  "Hello " + name + "!");
 	}
@@ -57,9 +59,11 @@ public class ClientHandler extends Thread {
 		
 		//Get the command (first word)
 		String comm;
+		String arguments = null;
 		
 		if(message.indexOf(' ') != -1) {
 			comm = message.substring(0, message.indexOf(' '));
+			arguments = message.substring(message.indexOf(' ') + 1);
 		}
 		else {
 			comm = message;
@@ -68,7 +72,11 @@ public class ClientHandler extends Thread {
 		switch (comm.toLowerCase()) {
 		
 		case "say":
-			say(message.substring(message.indexOf(' ') + 1));
+			say(arguments);
+			break;
+			
+		case "tell":
+			tell(arguments);
 			break;
 			
 		default:
@@ -78,5 +86,29 @@ public class ClientHandler extends Thread {
 	
 	private void say(String message) throws IOException {
 		s.broadcast("<bright><fgcyan>" + player.Name() + " says \"" + message + "\"<reset>");
+	}
+	
+	private void tell(String message) throws IOException {
+		String recipient;
+		
+		if (message.indexOf(' ') != -1) {
+			recipient = message.substring(0, message.indexOf(' '));
+			message = message.substring(message.indexOf(' ') + 1);
+		}
+		else {
+			Telnet.writeLine(cs, "<fgred>Tell what to whom?<reset>");
+			return;
+		}
+		
+		Player p;
+		
+		if ((p = s.getPlayerDB().searchName(recipient)) != null) {
+			Telnet.writeLine(p.getSocket(), "<bright><fgyellow>" + player.Name() + " tells you: " + message + "<reset>");
+		}
+		else
+		{
+			Telnet.writeLine(cs, "<fgred>No player " + recipient + " found<reset>");
+			return;
+		}
 	}
 }

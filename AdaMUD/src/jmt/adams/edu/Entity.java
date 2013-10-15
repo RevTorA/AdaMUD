@@ -28,7 +28,7 @@ public class Entity {
 		
 		while(true) {
 			if ((idx = name.toLowerCase().indexOf(search.toLowerCase(), idx)) != -1) {
-				if (name.charAt(idx - 1) == ' ') {
+				if (idx == 0 || name.charAt(idx - 1) == ' ') {
 					return true;
 				}
 				else {
