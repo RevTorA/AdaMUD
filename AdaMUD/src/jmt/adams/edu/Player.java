@@ -1,20 +1,22 @@
 package jmt.adams.edu;
 
-public class Player {
-	public String name;
+import java.net.*;
+
+public class Player extends Character {
+
+	private Socket s;
 	
-	public Player (String name) {
-		this.name = name;
+	public Player(String name, int id, Socket s) {
+		super(name, id);
+		
+		this.s = s;
 	}
 	
-	public boolean fullMatch (String search) {
-		if (name.equals(search))
-			return true;
-		else
-			return false;
+	public void setSocket (Socket s) {
+		this.s = s;
 	}
 	
-	public boolean partialMatch (String search) {
-		return true;
+	public Socket getSocket() {
+		return s;
 	}
 }

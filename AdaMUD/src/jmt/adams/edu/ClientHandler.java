@@ -7,6 +7,8 @@ public class ClientHandler extends Thread {
 	private Socket cs;
 	private Server s;
 	
+	private Player player;
+	
 	public ClientHandler(Socket cs, Server s) {
 		this.cs = cs;
 		this.s = s;
@@ -27,7 +29,7 @@ public class ClientHandler extends Thread {
 					break;
 				}
 				
-				Telnet.writeLine(cs, "You said: " + message);
+				parseCommand(message);
 			}
 			
 			cs.close();
@@ -44,12 +46,37 @@ public class ClientHandler extends Thread {
 		Telnet.writeLine(cs, "What is your name? ");
 		String name = Telnet.readLine(cs).trim();
 		
-		if(s.playerDatabase.findExact(name) != null) {
-			Telnet.writeLine(cs, "Welcome back " + name + "!");
+		player = new Player(name, s.numClients, cs);
+		
+		Telnet.writeLine(cs,  "Hello " + name + "!");
+	}
+	
+	private void parseCommand(String message) throws IOException {
+		if (message.length() == 0)
+			return;
+		
+		//Get the command (first word)
+		String comm;
+		
+		if(message.indexOf(' ') != -1) {
+			comm = message.substring(0, message.indexOf(' '));
 		}
 		else {
-			Telnet.writeLine(cs, "New around here huh? Well I'll remember you.");
-			s.playerDatabase.add(new Player(name));
+			comm = message;
 		}
+		
+		switch (comm.toLowerCase()) {
+		
+		case "say":
+			say(message.substring(message.indexOf(' ') + 1));
+			break;
+			
+		default:
+			Telnet.writeLine(cs, "Your meaning is unclear");
+		}
+	}
+	
+	private void say(String message) throws IOException {
+		s.broadcast("<bright><fgcyan>" + player.Name() + " says \"" + message + "\"<reset>");
 	}
 }
