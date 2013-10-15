@@ -12,6 +12,8 @@ public class Server {
 	public int numClients = 0;
 	private List<Socket> clientList = new ArrayList<Socket>();
 	
+	public PlayerDatabase playerDatabase = new PlayerDatabase();
+	
 	public static void main (String[] args) {
 		Server s = new Server();
 		s.listen(PORT);
