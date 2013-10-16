@@ -30,7 +30,7 @@ public class Player extends Character {
 				location.arrive(this, Direction.reverse[dir]);
 			}
 			else {
-				Telnet.writeLine(s, "There is no exit in that direction");
+				Telnet.writeLine(s, "There is no exit in that direction\n");
 			}
 		}
 		catch (IOException e) {

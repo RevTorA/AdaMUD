@@ -49,8 +49,10 @@ public class ClientHandler extends Thread {
 		
 		player = new Player(name, s.numClients, s.getRoomDB().getByID(1), cs);
 		s.getPlayerDB().add(player);
+		s.getRoomDB().getByID(1).add(player);
 		
-		Telnet.writeLine(cs,  "Hello " + name + "!");
+		Telnet.writeLine(cs,  "Hello " + name + "!\n");
+		player.location.look(player);
 	}
 	
 	private void parseCommand(String message) throws IOException {
@@ -125,7 +127,7 @@ public class ClientHandler extends Thread {
 			break;
 			
 		default:
-			Telnet.writeLine(cs, "Your meaning is unclear");
+			Telnet.writeLine(cs, "Your meaning is unclear\n");
 		}
 	}
 	
@@ -141,18 +143,18 @@ public class ClientHandler extends Thread {
 			message = message.substring(message.indexOf(' ') + 1);
 		}
 		else {
-			Telnet.writeLine(cs, "<fgred>Tell what to whom?<reset>");
+			Telnet.writeLine(cs, "<fgred>Tell what to whom?<reset>\n");
 			return;
 		}
 		
 		Player p;
 		
 		if ((p = s.getPlayerDB().searchName(recipient)) != null) {
-			Telnet.writeLine(p.getSocket(), "<bright><fgyellow>" + player.Name() + " tells you: " + message + "<reset>");
+			Telnet.writeLine(p.getSocket(), "<bright><fgyellow>" + player.Name() + " tells you: " + message + "<reset>\n");
 		}
 		else
 		{
-			Telnet.writeLine(cs, "<fgred>No player " + recipient + " found<reset>");
+			Telnet.writeLine(cs, "<fgred>No player " + recipient + " found<reset>\n");
 			return;
 		}
 	}

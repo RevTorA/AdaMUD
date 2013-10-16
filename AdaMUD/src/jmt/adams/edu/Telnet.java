@@ -30,6 +30,8 @@ public class Telnet {
 	public static final String BG_CYAN 		= 	(char)27 + "[46m";
 	public static final String BG_WHITE 	= 	(char)27 + "[47m";
 	
+	public static final int CONSOLE_WIDTH = 80;
+	
 	public static String readLine(Socket s) throws IOException {
 		//Reads data into buffer until newline is found, ignoring special characters and using backspaces properly
 		String buffer = "";
@@ -60,7 +62,46 @@ public class Telnet {
 		return buffer;
 	}
 	
-	public static void writeLine(Socket s, String message) throws IOException{
+	public static String wordWrap(String message, int lineWidth) {
+		if (message.length() < lineWidth) {
+			return message;
+		}
+		
+		//Iterate through message, replacing spaces with newlines if it's been more than lineWidth
+		//characters since our last newline
+		int lastSpace = 0;
+		int lastNewline = 0;
+		
+		StringBuilder out = new StringBuilder(message);
+		
+		if (out.indexOf("\n", lastNewline + 1) > 0 && out.indexOf("\n", lastNewline + 1) < lineWidth) {
+			lastNewline = out.indexOf("\n", lastNewline + 1);
+		}
+		
+		while (true) {
+			int idx = out.indexOf(" ", lastSpace + 1);
+			
+			if (idx < 0) {
+				break;
+			}
+			
+			if ((idx - lastNewline) > lineWidth) {
+				//Been too long, replace lastSpace with a newline character
+				out.replace(lastSpace, lastSpace + 1, "\r\n");
+				lastNewline = lastSpace;
+				
+				if (out.indexOf("\n", lastNewline + 1) > 0 && out.indexOf("\n", lastNewline + 1) < lineWidth) {
+					lastNewline = out.indexOf("\n", lastNewline + 1);
+				}
+			}
+			
+			lastSpace = idx;
+		}
+		
+		return out.toString();
+	}
+	
+	public static void writeLine(Socket s, String message, boolean wordWrap) throws IOException {
 		//Writes message to Telnet socket, replacing <> tags with appropriate VT100 codes
 		
 		//First we replace all <> tags
@@ -90,10 +131,18 @@ public class Telnet {
 		message = message.replace("<swap_fg_bg>", SWAP_FG_BG);
 		message = message.replace("<hidden>", 	HIDDEN);
 		
+		if (wordWrap == true) {
+			message = wordWrap(message, CONSOLE_WIDTH);
+		}
 		//Then write the message to the socket
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(s.getOutputStream()), true);
 		
 		out.println(message);
+		
+	}
+	
+	public static void writeLine(Socket s, String message) throws IOException{
+		writeLine(s, message, true);
 	}
 	
 	public static void flushInput(Socket s) throws IOException {

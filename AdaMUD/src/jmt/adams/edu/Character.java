@@ -18,6 +18,6 @@ public class Character extends Entity {
 	}
 
 	public void say(String message) {
-		location.say("<bright><fgcyan>" + name + " says \"" + message + "\"<reset>");
+		location.say("<bright><fgcyan>" + name + " says \"" + message + "\"\n<reset>");
 	}
 }
