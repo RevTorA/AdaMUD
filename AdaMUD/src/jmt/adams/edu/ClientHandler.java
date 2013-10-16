@@ -47,7 +47,7 @@ public class ClientHandler extends Thread {
 		Telnet.writeLine(cs, "What is your name? ");
 		String name = Telnet.readLine(cs).trim();
 		
-		player = new Player(name, s.numClients, cs);
+		player = new Player(name, s.numClients, s.getRoomDB().getByID(1), cs);
 		s.getPlayerDB().add(player);
 		
 		Telnet.writeLine(cs,  "Hello " + name + "!");
@@ -79,13 +79,58 @@ public class ClientHandler extends Thread {
 			tell(arguments);
 			break;
 			
+		case "north":
+		case "n":
+			player.move(Direction.N);
+			break;
+			
+		case "northeast":
+		case "ne":
+			player.move(Direction.NE);
+			break;
+			
+		case "east":
+		case "e":
+			player.move(Direction.E);
+			break;
+			
+		case "southeast":
+		case "se":
+			player.move(Direction.SE);
+			break;
+			
+		case "south":
+		case "s":
+			player.move(Direction.S);
+			break;
+			
+		case "southwest":
+		case "sw":
+			player.move(Direction.SW);
+			break;
+			
+		case "west":
+		case "w":
+			player.move(Direction.W);
+			break;
+			
+		case "northwest":
+		case "nw":
+			player.move(Direction.NW);
+			break;
+			
+		case "look":
+		case "l":
+			player.look();
+			break;
+			
 		default:
 			Telnet.writeLine(cs, "Your meaning is unclear");
 		}
 	}
 	
 	private void say(String message) throws IOException {
-		s.broadcast("<bright><fgcyan>" + player.Name() + " says \"" + message + "\"<reset>");
+		player.say(message);
 	}
 	
 	private void tell(String message) throws IOException {

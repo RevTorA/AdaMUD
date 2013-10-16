@@ -13,9 +13,11 @@ public class Server {
 	private List<Socket> clientList = new ArrayList<Socket>();
 	
 	private PlayerDatabase dbPlayers = new PlayerDatabase();
+	private RoomDatabase dbRooms = new RoomDatabase();
 	
 	public static void main (String[] args) {
 		Server s = new Server();
+		s.initRooms();
 		s.listen(PORT);
 	}
 	
@@ -59,4 +61,24 @@ public class Server {
 	}
 	
 	public PlayerDatabase getPlayerDB() { return dbPlayers; }
+	public RoomDatabase getRoomDB() { return dbRooms; }
+	
+	//Temporarily sets up dummy rooms
+	private void initRooms () {
+		Room r1 = new Room();
+		Room r2 = new Room();
+		
+		r1.setName("CSCI Classroom");
+		r1.setDescription("A classroom at Adams");
+		r1.setID(1);
+		r1.setExit(Direction.E, r2);
+		
+		r2.setName("Utility Closet");
+		r2.setDescription("A small closet home to spare computer parts, some cleaning supplies, and programming manuals");
+		r2.setID(2);
+		r2.setExit(Direction.W, r1);
+		
+		dbRooms.add(r1);
+		dbRooms.add(r2);
+	}
 }

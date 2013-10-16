@@ -1,9 +1,9 @@
 package jmt.adams.edu;
 
 public class Entity {
-	private String name;
+	protected String name;
 	private int id;
-	
+
 	public Entity(String name, int id) {
 		this.name = name;
 		this.id = id;

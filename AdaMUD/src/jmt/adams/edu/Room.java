@@ -4,24 +4,11 @@ import java.io.*;
 
 public class Room {
 
-	public static final int N = 0;
-	public static final int NE = 1;
-	public static final int E = 2;
-	public static final int SE = 3;
-	public static final int S = 4;
-	public static final int SW = 5;
-	public static final int W = 6;
-	public static final int NW = 7;
-	public static final int UP = 8;
-	public static final int DOWN = 9;
-	public static final int IN = 10;
-	public static final int OUT = 11;
-	
 	private String name;
 	private int id;
 	private String description;
 	
-	private int[] exit = new int[12];
+	private Room[] exit = new Room[12];
 	
 	private List<Character> hereList = new ArrayList<Character>();
 	
@@ -29,17 +16,21 @@ public class Room {
 	public void setDescription(String description) { this.description = description; }
 	public void setID(int id) { this.id = id; }
 	
-	public void setExit(int dir, int roomID) {
+	public void setExit(int dir, Room r) {
 		if (dir >= 0 && dir <= 11)
-			exit[dir] = roomID;
+			exit[dir] = r;
 	}
 	
 	public String getName() { return name; }
 	public String getDescription() { return description; }
 	public int getID() { return id; }
 	
-	public int getExit(int dir) {
-		return exit[dir];
+	public Room getExit(int dir) {
+		if (dir >= 0 && dir <= 11) {
+			return exit[dir];
+		}
+		
+		return null;
 	}
 	
 	public Character findByName(String search) {
@@ -63,38 +54,17 @@ public class Room {
 	}
 	
 	public void leave(Character c, int dir) {
-		String message = c.Name() + " leaves to the ";
-		
-		switch (dir) {
-		case N:
-			message += "north";
-			break;
-		case NE:
-			message += "northeast";
-			break;
-		case E:
-			message += "east";
-			break;
-		case SE:
-			message += "southeast";
-			break;
-		case S:
-			message += "south";
-			break;
-		case SW:
-			message += "southwest";
-			break;
-		case W:
-			message += "west";
-			break;
-		case NW:
-			message += "northwest";
-			break;
-		default:
-			return;				
+		if (dir >= 0 && dir <= 11) {
+			String message = c.Name() + " leaves to the " + Direction.exits[dir];
+			say(message);
 		}
-		
-		say(message);
+	}
+	
+	public void arrive(Character c, int dir) {
+		if (dir >= 0 && dir <= 11) {
+			String message = c.Name() + " arrives from the " + Direction.exits[dir];
+			say(message);
+		}
 	}
 	
 	public void say(String message) {
@@ -116,7 +86,7 @@ public class Room {
 			//Name in green text
 			Telnet.writeLine(p.getSocket(), "<fggreen>" + name + "<reset>");
 			
-			//Description in regular text. TODO: Implement "writeWordWrap" in Telnet
+			//Description in regular text. TODO: Implement word wrap in Telnet writeLine
 			Telnet.writeLine(p.getSocket(), "\t" + description);
 			
 			//Loop through listing all characters that are here in cyan text
@@ -127,7 +97,14 @@ public class Room {
 			}
 			
 			//Display all exits
-			
+			String exitList = "<dim><fgyellow>There are exits to the";
+			for (int i = 0; i < 12; i++) {
+				if (exit[i] != null) {
+					exitList += " " + Direction.exits[i] + ",";
+				}
+			}
+			exitList = exitList.substring(exitList.length() - 2) + ".";
+			Telnet.writeLine(p.getSocket(), exitList);
 			
 		}
 		catch (IOException e) {
