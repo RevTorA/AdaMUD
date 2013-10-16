@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RoomCollection>
+	<room id="1">
+		<name>CSCI Computer Lab</name>
+		<description>A typical computer lab.</description>
+		<exit dir="E" id="2" />
+	</room>
+
+	<room id="2">
+		<name>Utility Closet</name>
+		<description>A small utility closet home to spare computer parts, cleaning tools, and programming manuals.</description>
+		<exit dir="W" id="1" />
+	</room>
+</RoomCollection>

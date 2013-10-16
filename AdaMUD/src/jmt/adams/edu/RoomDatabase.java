@@ -63,6 +63,7 @@ public class RoomDatabase extends DefaultHandler {
 			int dir = Direction.map.get(attr.getValue("dir").toLowerCase());
 			int id = Integer.parseInt(attr.getValue("id"));
 			
+			System.out.println("Room id: " + tempRoom.getID() + " Dir: " + Direction.exits[dir] + " ID: " + id);
 			tempRoom.setExit(dir, id);
 		}
 	}
