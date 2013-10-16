@@ -150,7 +150,7 @@ public class ClientHandler extends Thread {
 		Player p;
 		
 		if ((p = s.getPlayerDB().searchName(recipient)) != null) {
-			Telnet.writeLine(p.getSocket(), "<bright><fgyellow>" + player.Name() + " tells you: " + message + "<reset>\n");
+			Telnet.writeLine(p.getSocket(), "<bright><fgyellow>" + player.Name() + " tells you \"" + message + "\"<reset>\n");
 		}
 		else
 		{

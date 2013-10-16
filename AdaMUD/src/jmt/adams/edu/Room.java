@@ -8,17 +8,22 @@ public class Room {
 	private int id;
 	private String description;
 	
-	private Room[] exit = new Room[12];
+	private int[] exit = new int[12];
 	
 	private List<Character> hereList = new ArrayList<Character>();
+	private RoomDatabase db;
+	
+	public Room(RoomDatabase db) {
+		this.db = db;
+	}
 	
 	public void setName(String name) { this.name = name; }
 	public void setDescription(String description) { this.description = description; }
 	public void setID(int id) { this.id = id; }
 	
-	public void setExit(int dir, Room r) {
+	public void setExit(int dir, int id) {
 		if (dir >= 0 && dir <= 11)
-			exit[dir] = r;
+			exit[dir] = id;
 	}
 	
 	public String getName() { return name; }
@@ -27,7 +32,7 @@ public class Room {
 	
 	public Room getExit(int dir) {
 		if (dir >= 0 && dir <= 11) {
-			return exit[dir];
+			return db.getByID(exit[dir]);
 		}
 		
 		return null;
@@ -119,7 +124,7 @@ public class Room {
 			//Display all exits
 			String exitList = "<dim><fgyellow>There are exits to the";
 			for (int i = 0; i < 12; i++) {
-				if (exit[i] != null) {
+				if (exit[i] != 0) {
 					exitList += " " + Direction.exits[i] + ",";
 				}
 			}

@@ -65,18 +65,18 @@ public class Server {
 	
 	//Temporarily sets up dummy rooms
 	private void initRooms () {
-		Room r1 = new Room();
-		Room r2 = new Room();
+		Room r1 = new Room(dbRooms);
+		Room r2 = new Room(dbRooms);
 		
 		r1.setName("CSCI Classroom");
 		r1.setDescription("A classroom at Adams");
 		r1.setID(1);
-		r1.setExit(Direction.E, r2);
+		r1.setExit(Direction.E, 2);
 		
 		r2.setName("Utility Closet");
 		r2.setDescription("A small closet home to spare computer parts, some cleaning supplies, and programming manuals");
 		r2.setID(2);
-		r2.setExit(Direction.W, r1);
+		r2.setExit(Direction.W, 1);
 		
 		dbRooms.add(r1);
 		dbRooms.add(r2);
