@@ -26,6 +26,7 @@ public class Player extends Character {
 			if(location.getExit(dir) != null) {
 				location.leave(this, dir);
 				location = location.getExit(dir);
+				location.look(this);
 				location.arrive(this, Direction.reverse[dir]);
 			}
 			else {

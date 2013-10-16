@@ -71,7 +71,7 @@ public class Room {
 		//Broadcast to all Players in this room
 		try {
 			for (Character c : hereList) {
-				if (c instanceof Player) {
+				if (((Player)c).getSocket() != null) {
 					Telnet.writeLine(((Player)c).getSocket(), message);
 				}
 			}
@@ -87,7 +87,7 @@ public class Room {
 			Telnet.writeLine(p.getSocket(), "<fggreen>" + name + "<reset>");
 			
 			//Description in regular text. TODO: Implement word wrap in Telnet writeLine
-			Telnet.writeLine(p.getSocket(), "\t" + description);
+			Telnet.writeLine(p.getSocket(), description);
 			
 			//Loop through listing all characters that are here in cyan text
 			for (Character c : hereList) {
@@ -103,7 +103,7 @@ public class Room {
 					exitList += " " + Direction.exits[i] + ",";
 				}
 			}
-			exitList = exitList.substring(exitList.length() - 2) + ".";
+			exitList = exitList.substring(0, exitList.length() - 1) + ".<reset>";
 			Telnet.writeLine(p.getSocket(), exitList);
 			
 		}
