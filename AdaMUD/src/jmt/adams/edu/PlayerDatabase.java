@@ -17,6 +17,7 @@ public class PlayerDatabase {
 	
 	public void remove(Player p) {
 		if (p != null)
+			p.location.remove(p);
 			playerList.remove(p);
 	}
 	
