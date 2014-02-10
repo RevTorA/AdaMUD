@@ -16,20 +16,24 @@ public class Direction {
 	public static final int IN = 10;
 	public static final int OUT = 11;
 	
-	public static final Map<String, Integer> map = new HashMap<String, Integer>() {{
-		put("n", 	N);
-		put("ne", 	NE);
-		put("e", 	E);
-		put("se", 	SE);
-		put("s", 	S);
-		put("sw", 	SW);
-		put("w", 	W);
-		put("nw", 	NW);
-		put("up", 	UP);
-		put("down", DOWN);
-		put("in", 	IN);
-		put("out", 	OUT);
-	}};
+	public static final Map<String, Integer> map = new HashMap<String, Integer>() {
+		private static final long serialVersionUID = 1L;
+		
+		{
+			put("n", 	N);
+			put("ne", 	NE);
+			put("e", 	E);
+			put("se", 	SE);
+			put("s", 	S);
+			put("sw", 	SW);
+			put("w", 	W);
+			put("nw", 	NW);
+			put("up", 	UP);
+			put("down", DOWN);
+			put("in", 	IN);
+			put("out", 	OUT);
+		}
+	};
 	
 	public static final int[] reverse = {S, SW, W, NW, N, NE, E, SE, DOWN, UP, OUT, IN};
 	public static final String[] exits = {"north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "up", "down", "in", "out"};

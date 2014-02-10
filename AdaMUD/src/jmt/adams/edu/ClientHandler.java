@@ -19,10 +19,19 @@ public class ClientHandler extends Thread {
 			Telnet.writeLine(cs, "<fggreen> >>> Welcome to AdaMUD <<< <reset>");
 			Telnet.flushInput(cs);
 			
-			handleLogin();
+			if((player = s.getPlayerDB().login(cs, s)) == null) {
+				cs.close();
+				return;
+			}
 			
 			while (true) {
+				System.out.println("Waiting for message");
 				String message = Telnet.readLine(cs).trim();
+				
+				if(message == null) {
+					//Disconnected
+					break;
+				}
 				
 				if(message.equals("bye")) {
 					Telnet.writeLine(cs, "Goodbye!");

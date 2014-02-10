@@ -16,15 +16,19 @@ public class Server {
 	private RoomDatabase dbRooms = new RoomDatabase();
 	
 	public static void main (String[] args) {
-		Server s = new Server();
-		s.initRooms();
-		s.listen(PORT);
+		try {
+			Server s = new Server();
+			s.initRooms();
+			s.listen(PORT);
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	
-	public void listen(int port) {
+	public void listen(int port) throws IOException {
+		ServerSocket listener = new ServerSocket(port);
 		try {
-			ServerSocket listener = new ServerSocket(port);
-			
 			System.out.println(">>> AdaMUD Server now running <<<");
 			System.out.println("   Telnet to " + InetAddress.getLocalHost().getHostName() + " on port " + port);
 			System.out.println(" Ctrl+C to terminate server");
@@ -41,6 +45,9 @@ public class Server {
 		}
 		catch (IOException e) {
 			System.out.println(e);
+		}
+		finally {
+			listener.close();
 		}
 	}
 	

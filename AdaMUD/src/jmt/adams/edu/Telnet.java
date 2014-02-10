@@ -41,6 +41,10 @@ public class Telnet {
 		while (true) {
 			inChar = (char)in.read();
 			
+			if(inChar == -1) {
+				return null;
+			}
+			
 			if(inChar == '\n') {
 				//Add newline and return to buffer, then break
 				buffer += "\r\n";
