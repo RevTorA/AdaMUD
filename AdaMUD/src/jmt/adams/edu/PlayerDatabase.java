@@ -70,10 +70,10 @@ public class PlayerDatabase {
 	
 	private boolean exists(String name, Connection c) throws SQLException{
 		//Checks player database for player with name 'name'
-		PreparedStatement p = c.prepareStatement("SELECT * FROM " + MySQLDatabase.playertable + " WHERE username = ?");
-		p.setString(1, name);
+		PreparedStatement s = c.prepareStatement("SELECT * FROM " + MySQLDatabase.playertable + " WHERE username = ?");
+		s.setString(1, name);
 		//ResultSet r = s.executeQuery("SELECT * FROM " + MySQLDatabase.playertable + " WHERE username = \"" + name + "\"");
-		ResultSet r = p.executeQuery();
+		ResultSet r = s.executeQuery();
 		
 		//If nothing was found return false, otherwise return true
 		if(r.isBeforeFirst()) {
@@ -87,8 +87,9 @@ public class PlayerDatabase {
 	private Player login(Socket cs, Server server, String name, Connection c) throws SQLException, IOException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		//It's assumed at this point that the player has been verified as existing in the db
 		String password;
-		Statement s = c.createStatement();
-		ResultSet r = s.executeQuery("SELECT * FROM " + MySQLDatabase.playertable + " WHERE username = \"" + name + "\"");
+		PreparedStatement s = c.prepareStatement("SELECT * FROM " + MySQLDatabase.playertable + " WHERE username = ?");
+		s.setString(1,  name);
+		ResultSet r = s.executeQuery();
 		r.next();
 		
 		Telnet.write(cs, "Password: <hidden>");
@@ -153,12 +154,18 @@ public class PlayerDatabase {
 		byte[] hashByte = digest.digest(password.getBytes("UTF-8"));
 		String hash = hashToString(hashByte);
 		
-		Statement s = c.createStatement();
-		ResultSet r = s.executeQuery("SELECT MAX(id) FROM " + MySQLDatabase.playertable);
-		r.next();
-		int id = r.getInt("MAX(id)") + 1;
+		PreparedStatement s = c.prepareStatement("INSERT INTO " + MySQLDatabase.playertable + "(username, password, location) VALUES( ?, ?, ?)");
+		s.setString(1, name);
+		s.setString(2, hash);
+		s.setInt(3, 1);
+		s.executeUpdate();
 		
-		s.executeUpdate("INSERT INTO " + MySQLDatabase.playertable + " VALUES (" + id + ", \"" + name + "\", \"" + hash + "\", 1)");
+		s = c.prepareStatement("SELECT id FROM " + MySQLDatabase.playertable + " WHERE username = ?");
+		s.setString(1, name);
+		ResultSet r = s.executeQuery();
+		r.next();
+		
+		int id = r.getInt("id");
 		
 		//Create the player, and return it
 		Player p = new Player(name, id, server.getRoomDB().getByID(1), cs);

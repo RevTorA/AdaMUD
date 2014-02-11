@@ -128,6 +128,14 @@ public class ClientHandler extends Thread {
 			player.move(Direction.NW);
 			break;
 			
+		case "in":
+			player.move(Direction.IN);
+			break;
+			
+		case "out":
+			player.move(Direction.OUT);
+			break;
+			
 		case "look":
 		case "l":
 			player.look();
