@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RoomCollection>
 	<room id="1">
-		<name>CSCI Computer Lab</name>
-		<description>A typical computer lab.</description>
-		<exit dir="E" id="2" />
+		<name>Outside Student Union Building</name>
+		<description>This paved area creates a buffer between the 2nd st. crosswalk and the Studen Union Building or SUB. Past the crosswalk to the south are the main buildings of the ASU campus. The sidewalk continues west towards the Rex Center and the library.</description>
+		<exit dir="S" id="2" /><exit dir="IN" id="10"></exit>
 	</room>
 
 	<room id="2">
-		<name>Utility Closet</name>
-		<description>A small utility closet home to spare computer parts, cleaning tools, and programming manuals.</description>
-		<exit dir="W" id="1" />
+		<name>Japanese Fountain</name>
+		<description>A monument to the japanese immigrants that settled in the area around WW2. It stretches for about twenty feet with a small stream flowing amongst a rocky bed and small statuettes.</description>
+		<exit dir="N" id="1" />
 	</room>
+	<room id="10">
+		<name>Student Union Building Foyer</name>
+		<description></description>
+		<exit dir="OUT" id="1"></exit></room>
 </RoomCollection>

@@ -29,7 +29,6 @@ public class PlayerDatabase {
 		try {
 			//Create MySQL connection to use
 			c = DriverManager.getConnection(MySQLDatabase.url, MySQLDatabase.login, MySQLDatabase.password);
-			
 			//Check database to see if username already exists
 			if(exists(name, c)) {
 				//Log the person in
@@ -42,7 +41,7 @@ public class PlayerDatabase {
 			
 		}
 		catch (Exception e) {
-			
+			System.out.println(e);
 		}
 		
 		return p;
@@ -71,8 +70,10 @@ public class PlayerDatabase {
 	
 	private boolean exists(String name, Connection c) throws SQLException{
 		//Checks player database for player with name 'name'
-		Statement s = c.createStatement();
-		ResultSet r = s.executeQuery("SELECT * FROM adamud.players WHERE username = \"" + name + "\"");
+		PreparedStatement p = c.prepareStatement("SELECT * FROM " + MySQLDatabase.playertable + " WHERE username = ?");
+		p.setString(1, name);
+		//ResultSet r = s.executeQuery("SELECT * FROM " + MySQLDatabase.playertable + " WHERE username = \"" + name + "\"");
+		ResultSet r = p.executeQuery();
 		
 		//If nothing was found return false, otherwise return true
 		if(r.isBeforeFirst()) {
@@ -87,21 +88,22 @@ public class PlayerDatabase {
 		//It's assumed at this point that the player has been verified as existing in the db
 		String password;
 		Statement s = c.createStatement();
-		ResultSet r = s.executeQuery("SELECT * FROM adamud.players WHERE username = \"" + name + "\"");
+		ResultSet r = s.executeQuery("SELECT * FROM " + MySQLDatabase.playertable + " WHERE username = \"" + name + "\"");
 		r.next();
 		
-		Telnet.write(cs, "Password: ");
+		Telnet.write(cs, "Password: <hidden>");
 		//Ask them for the password until they get it right or until they give no password
 		while(!(password = Telnet.readLine(cs).trim()).equals("")) {
 			if(checkHash(password, r.getString("password"))) {
 				break;
 			}
 			else {
-				Telnet.writeLine(cs, "Wrong password!");
-				Telnet.write(cs, "Password: ");
+				Telnet.writeLine(cs, "<reset>Wrong password!");
+				Telnet.write(cs, "Password: <hidden>");
 			}
 		}
 		
+		Telnet.write(cs, "<reset>");
 		if(password.equals(""))
 			return null;
 		
@@ -109,6 +111,8 @@ public class PlayerDatabase {
 		int id = r.getInt("id");
 		
 		Player p = new Player(name, id, location, cs);
+		playerList.add(p);
+		location.add(p);
 		return p;
 	}
 	
@@ -129,16 +133,17 @@ public class PlayerDatabase {
 		String password, confirm;
 		
 		while(true) {
-			Telnet.write(cs, "Password: ");
+			Telnet.write(cs, "Password: <hidden>");
 			password = Telnet.readLine(cs);
-			Telnet.write(cs, "Confirm: ");
+			Telnet.write(cs, "<reset>Confirm: <hidden>");
 			confirm = Telnet.readLine(cs);
 			
 			if(!password.equals(confirm)) {
-				Telnet.writeLine(cs, "Passwords don't match!");
+				Telnet.writeLine(cs, "<reset>Passwords don't match!");
 				continue;
 			}
 			else {
+				Telnet.write(cs, "<reset>");
 				break;
 			}
 		}
@@ -149,14 +154,16 @@ public class PlayerDatabase {
 		String hash = hashToString(hashByte);
 		
 		Statement s = c.createStatement();
-		ResultSet r = s.executeQuery("SELECT MAX(id) FROM adamud.players");
+		ResultSet r = s.executeQuery("SELECT MAX(id) FROM " + MySQLDatabase.playertable);
 		r.next();
-		int id = r.getInt("id") + 1;
+		int id = r.getInt("MAX(id)") + 1;
 		
-		r = s.executeQuery("INSERT INTO adamud.players VALUES (" + id + ", \"" + name + "\", \"" + hash + "\", 1)");
+		s.executeUpdate("INSERT INTO " + MySQLDatabase.playertable + " VALUES (" + id + ", \"" + name + "\", \"" + hash + "\", 1)");
 		
 		//Create the player, and return it
 		Player p = new Player(name, id, server.getRoomDB().getByID(1), cs);
+		playerList.add(p);
+		server.getRoomDB().getByID(1).add(p);
 		return p;
 	}
 	private String hashToString(byte[] hash) {

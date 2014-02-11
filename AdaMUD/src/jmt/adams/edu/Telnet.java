@@ -46,8 +46,6 @@ public class Telnet {
 			}
 			
 			if(inChar == '\n') {
-				//Add newline and return to buffer, then break
-				buffer += "\r\n";
 				break;
 			}
 			

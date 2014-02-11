@@ -108,7 +108,7 @@ public class Room {
 			//Name in green text
 			Telnet.writeLine(p.getSocket(), "<fggreen>" + name + "<reset>");
 			
-			//Description in regular text. TODO: Implement word wrap in Telnet writeLine
+			//Description in regular text.
 			Telnet.writeLine(p.getSocket(), description);
 			
 			//Loop through listing all characters that are here in cyan text
