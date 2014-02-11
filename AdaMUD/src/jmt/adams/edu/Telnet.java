@@ -144,7 +144,7 @@ public class Telnet {
 		if(newline)
 			out.println(message);
 		else
-			out.print(message);
+			out.println(message);
 		
 	}
 	
