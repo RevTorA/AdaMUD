@@ -105,7 +105,7 @@ public class Telnet {
 		return out.toString();
 	}
 	
-	public static void writeLine(Socket s, String message, boolean wordWrap) throws IOException {
+	public static void writeLine(Socket s, String message, boolean wordWrap, boolean newline) throws IOException {
 		//Writes message to Telnet socket, replacing <> tags with appropriate VT100 codes
 		
 		//First we replace all <> tags
@@ -141,12 +141,19 @@ public class Telnet {
 		//Then write the message to the socket
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(s.getOutputStream()), true);
 		
-		out.println(message);
+		if(newline)
+			out.println(message);
+		else
+			out.print(message);
 		
 	}
 	
-	public static void writeLine(Socket s, String message) throws IOException{
-		writeLine(s, message, true);
+	public static void writeLine(Socket s, String message) throws IOException {
+		writeLine(s, message, true, true);
+	}
+	
+	public static void write(Socket s, String message) throws IOException {
+		writeLine(s, message, true, false);
 	}
 	
 	public static void flushInput(Socket s) throws IOException {
