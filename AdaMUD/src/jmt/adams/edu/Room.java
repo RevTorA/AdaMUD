@@ -70,7 +70,7 @@ public class Room {
 	
 	public void leave(Character c, int dir) {
 		if (dir >= 0 && dir <= 11) {
-			String message = c.Name() + " leaves to the " + Direction.exits[dir] + "\n";
+			String message = c.Name() + " leaves to the " + Direction.exits[dir] + ".\n";
 			say(message, (Player)c);
 		}
 		remove(c);
@@ -78,7 +78,7 @@ public class Room {
 	
 	public void arrive(Character c, int dir) {
 		if (dir >= 0 && dir <= 11) {
-			String message = c.Name() + " arrives from the " + Direction.exits[dir] + "\n";
+			String message = c.Name() + " arrives from the " + Direction.exits[dir] + ".\n";
 			say(message, (Player)c);
 		}
 		add(c);
@@ -115,7 +115,7 @@ public class Room {
 			String playerList = "<fgcyan>";
 			for (Character c : hereList) {
 				if ((Player)c != p) {
-					playerList += c.Name() + " is here.";
+					playerList += c.Name() + " is here. ";
 				}
 			}
 			playerList += "<reset>";
