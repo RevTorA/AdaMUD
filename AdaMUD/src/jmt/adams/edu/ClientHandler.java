@@ -49,19 +49,7 @@ public class ClientHandler extends Thread {
 			s.remove(cs);
 		}
 	}
-	
-	private void handleLogin() throws IOException {
-		Telnet.writeLine(cs, "What is your name? ");
-		String name = Telnet.readLine(cs).trim();
-		
-		player = new Player(name, s.numClients, s.getRoomDB().getByID(1), cs);
-		s.getPlayerDB().add(player);
-		s.getRoomDB().getByID(1).add(player);
-		
-		Telnet.writeLine(cs,  "Hello " + name + "!\n");
-		player.location.look(player);
-	}
-	
+
 	private void parseCommand(String message) throws IOException {
 		if (message.length() == 0)
 			return;

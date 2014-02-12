@@ -15,7 +15,7 @@ public class PlayerDatabase {
 	}
 	
 	public Player login(Socket cs, Server s) throws IOException {
-		//User MySQL database to login user or create a new user if necessary.
+		//Use MySQL database to login user or create a new user if necessary.
 		
 		Player p = null;
 		String name;

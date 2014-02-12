@@ -2,7 +2,7 @@
 <RoomCollection>
 	<room id="1">
 		<name>Outside Student Union Building</name>
-		<description>This paved area creates a buffer between the 2nd st. crosswalk and the Studen Union Building or SUB. Past the crosswalk to the south are the main buildings of the ASU campus. The sidewalk continues west towards the Rex Center and the library.</description>
+		<description>This paved area creates a buffer between the 2nd st. crosswalk and the Student Union Building or SUB. Past the crosswalk to the south are the main buildings of the ASU campus. The sidewalk continues west towards the Rex Center and the library.</description>
 		<exit dir="S" id="2" /><exit dir="IN" id="10"></exit>
 	</room>
 
