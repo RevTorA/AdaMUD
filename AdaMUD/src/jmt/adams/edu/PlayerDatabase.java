@@ -8,7 +8,7 @@ import java.sql.*;
 import java.security.*;
 
 public class PlayerDatabase {
-	private List<Player> playerList = new ArrayList<Player>();
+	private ArrayList<Player> playerList = new ArrayList<Player>();
 	
 	public PlayerDatabase() {
 		

@@ -10,7 +10,9 @@ public class Room {
 	
 	private int[] exit = new int[12];
 	
-	private List<Character> hereList = new ArrayList<Character>();
+	private ArrayList<Character> hereList = new ArrayList<Character>();
+	private ArrayList<Item> itemList = new ArrayList<Item>();
+	
 	private RoomDatabase db;
 	
 	public Room(RoomDatabase db) {
@@ -50,11 +52,19 @@ public class Room {
 	
 	public Character findByID(int id) {
 		for (Character c : hereList) {
-			if (c.ID() == id) {
+			if (c.getID() == id) {
 				return c;
 			}
 		}
 		
+		return null;
+	}
+	
+	public Item findItemByName(String search) {
+		return null;
+	}
+	
+	public Item findItemByID(int id) {
 		return null;
 	}
 	

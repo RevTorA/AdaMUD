@@ -17,8 +17,8 @@ public class Entity {
 		return name;
 	}
 	
-	public void ID(int id) { this.id = id; }
-	public int ID() { return id; }
+	public void setID(int id) { this.id = id; }
+	public int getID() { return id; }
 	
 	public boolean partialMatch(String search) {
 		int idx = 0;

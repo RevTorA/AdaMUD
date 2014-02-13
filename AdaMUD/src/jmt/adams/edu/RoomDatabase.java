@@ -8,7 +8,7 @@ import java.io.*;
 
 public class RoomDatabase extends DefaultHandler {
 	
-	private List<Room> roomList = new ArrayList<Room>();
+	private ArrayList<Room> roomList = new ArrayList<Room>();
 	
 	//XML helper members
 	private Room tempRoom;
