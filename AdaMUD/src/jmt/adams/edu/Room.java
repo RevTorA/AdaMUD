@@ -61,10 +61,22 @@ public class Room {
 	}
 	
 	public Item findItemByName(String search) {
+		for (Item i : itemList) {
+			if (i.partialMatch(search)) {
+				return i;
+			}
+		}
+		
 		return null;
 	}
 	
 	public Item findItemByID(int id) {
+		for (Item i : itemList) {
+			if (i.getID() == id) {
+				return i;
+			}
+		}
+		
 		return null;
 	}
 	
